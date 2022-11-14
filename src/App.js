@@ -85,10 +85,10 @@ function App() {
   return (
     <ChakraProvider>
       <Navbar />
-      <Box p='6' ml='10'>
-        <SimpleGrid minChildWidth='500px' spacing='60px'>
+      <Box p='2' ml='5'>
+        <SimpleGrid minChildWidth='300px' spacingX='60px' spacingY='400px'>
           {mangas.map(manga => (
-            <Box w='100%' h='8'>
+            <Box w='100%' h='4'>
               <Flex alingitems={'center'}>
                 <TarjetaManga
                   id={manga.id}
