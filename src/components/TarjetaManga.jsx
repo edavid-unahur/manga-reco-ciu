@@ -1,22 +1,23 @@
 import { Fragment } from "react";
 import createUseStyles from 'react-jss';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Button, Box, Grid, GridItem, useColorMode, useColorModeValue, SimpleGrid } from '@chakra-ui/react';
+import { Button, Box, Grid, GridItem, useColorMode, useColorModeValue, SimpleGrid, Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { Badge } from '@chakra-ui/react';
 
-export const TarjetaManga = ({ id, titulo, descripcion, link, mangas, agregarMangaAFavoritos }) => {
-    const styles = createUseStyles({
-        thumbContainer: {
-            width: '50%',
-            height: 100,
-        },
-        thumbnail: {
-            flex: 1,
-            width: 10,
-            height: 10,
-            resizeMode: 'cover',
-        }
-    })
+export const TarjetaManga = ({ id, titulo, descripcion, link, tags, mangasFavoritos, mangas, manga,agregarMangaAFavoritos, eliminarMangaDeFavoritos }) => {
+
+    let generos = (tags) => {
+        let generos = [];
+        let i = 0;
+        tags.forEach(tag => {
+            if (i < 4) {
+                generos.push(tag.attributes.name.en)
+            }
+            i++;
+        });
+        return generos;
+    };
 
     const [coverArt, setCoverArt] = useState([]);
 
@@ -32,6 +33,16 @@ export const TarjetaManga = ({ id, titulo, descripcion, link, mangas, agregarMan
     return (
         <Fragment>
             <Box maxW='lg' borderWidth='3px' borderRadius='lg'>
+                <Flex p='2' alingitems={'center'}>
+                    {generos(tags).map((genero, index) => (
+                        <Badge key={index}
+                            colorScheme="blue"
+                            m={1}
+                        >
+                            {genero}
+                        </Badge>
+                    ))}
+                </Flex>
                 <Box p='6'>
                     <Box
                         mt='1'
@@ -40,26 +51,49 @@ export const TarjetaManga = ({ id, titulo, descripcion, link, mangas, agregarMan
                         lineHeight='tight'
                         noOfLines={1}
                     >
-                        {titulo}
+                        {titulo ? titulo : 'Sin titulo'}
                     </Box>
                     <SimpleGrid columns={2} spacing={10}>
                         <View style={{ width: "100%" }}>
-                            <img src={coverArtUrl} style={{ width: "100%", height: "100%" }} />
+                            <img src={coverArtUrl} style={{ width: "100%", height: "100%" }} alt="Imagen del manga" />
                         </View>
                         <Box maxW='sm' overflow={'hidden'} noOfLines={10}>
                             {descripcion}
                         </Box>
                         <Button
+                            type="button"
+                            bg={useColorModeValue('teal.50', 'teal.700')}
+                            color={useColorModeValue('teal.500', 'teal.100')}
+                        ><a href={link} target={"_blank"}>Leer</a>
+                        </Button>
+                        { agregarMangaAFavoritos == undefined ?
+                            <Button
+                            type="button"
+                            fontSize={['sm', 'md']}
+                            colorScheme="red"
+                            onClick={() => eliminarMangaDeFavoritos(id)}
+                            >Eliminar de Favoritos</Button>
+                            :
+                            mangasFavoritos.find(manga => manga.id === id) ?
+                            <Button
                                 type="button"
-                            ><a href={link}  target={"_blank"}>Leer</a></Button>
-                        <Button
-                                type="button"
-                                onClick={() => agregarMangaAFavoritos(id)}
-                            >Agregar a Favoritos</Button>
+                                fontSize={['sm', 'md']}
+                                colorScheme="purple"
+
+                            >Ya agregado</Button>
+                            : 
+                                <Button
+                                    type="button"
+                                    colorScheme="teal"
+                                    fontSize={['sm', 'md']}
+                                    onClick={() => agregarMangaAFavoritos(manga)}
+                                >Agregar a Favoritos</Button>
+                        }
+
 
                     </SimpleGrid>
 
-                    
+
 
                 </Box>
 

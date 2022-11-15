@@ -5,6 +5,9 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { MoonIcon, SunIcon, Shopp } from '@chakra-ui/icons';
+import {
+  Link as RouteLink
+} from "react-router-dom";
 
 export default function Nav({  }) {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -16,14 +19,28 @@ export default function Nav({  }) {
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Box>El Oeste Manga</Box>
-
+          <RouteLink to="/">
+            <Button
+              variant={'ghost'}
+              _hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
+              ref={btnRef}
+              onClick={onOpen}
+            >
+              Inicio
+            </Button>
+          </RouteLink>
+          <RouteLink to="/favoritos">
+            <Button
+              variant={'ghost'}
+              _hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}  
+              ref={btnRef}
+              onClick={onOpen}
+            >
+              Favoritos
+            </Button>
+          </RouteLink>
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
-              <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bag-heart" viewBox="0 0 16 16">
-                  <path fillRule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5Zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0ZM14 14V5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1ZM8 7.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
-                </svg>
-              </Button>
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
@@ -55,7 +72,9 @@ export default function Nav({  }) {
                   <br />
                   <MenuDivider />
                   <MenuItem ref={btnRef} onClick={onOpen}>
-                    Favoritos
+                      <RouteLink to="/favoritos">
+                      Favoritos
+                      </RouteLink>
                   </MenuItem>
                   <MenuItem><a href='https://www.instagram.com/_ezqdavid/' target='_blank'>Contacto</a></MenuItem>
                 </MenuList>

@@ -3,27 +3,44 @@ import './App.css';
 import { ChakraProvider, SimpleGrid } from '@chakra-ui/react';
 import Navbar from './components/Navbar';
 import TarjetaManga from './components/TarjetaManga';
-import {useState, useEffect, React} from 'react';
+import { useState, useEffect, React, Fragment } from 'react';
 import { Box, Flex, Stack } from '@chakra-ui/react';
-import Footer from './components/Footer';
+import Footer from './components/Footer2';
+import { extendTheme } from "@chakra-ui/react"
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
+import { Home } from './components/Home';
+import Favoritos from './components/Favoritos';
+import { Container } from 'react-bootstrap';
 
 function App() {
+
+  const breakpoints = {
+    sm: '320px',
+    md: '768px',
+    lg: '960px',
+    xl: '1200px',
+    '2xl': '1536px',
+  }
 
   let preferenciasUsuarioInicio = JSON.parse(localStorage.getItem('preferenciasUsuario'));
   if (!preferenciasUsuarioInicio) {
     preferenciasUsuarioInicio = [];
   }
-  
+
   let [preferenciasUsuario, setPreferenciasUsuario] = useState(preferenciasUsuarioInicio);
 
   useEffect(
     () => {
-    if(preferenciasUsuarioInicio){
-      localStorage.setItem('preferenciasUsuario', JSON.stringify(preferenciasUsuario));
-    } else {
-      localStorage.setItem('preferenciasUsuario', JSON.stringify([]));
-    }
-  }, [preferenciasUsuarioInicio]
+      if (preferenciasUsuarioInicio) {
+        localStorage.setItem('preferenciasUsuario', JSON.stringify(preferenciasUsuario));
+      } else {
+        localStorage.setItem('preferenciasUsuario', JSON.stringify([]));
+      }
+    }, [preferenciasUsuarioInicio]
   );
 
   let mangasFavoritosInicio = JSON.parse(localStorage.getItem('mangasFavoritos'));
@@ -35,12 +52,12 @@ function App() {
 
   useEffect(
     () => {
-    if(mangasFavoritosInicio){
-      localStorage.setItem('mangasFavoritos', JSON.stringify(mangasFavoritos));
-    } else {
-      localStorage.setItem('mangasFavoritos', JSON.stringify([]));
-    }
-  }, [mangasFavoritosInicio]
+      if (mangasFavoritosInicio) {
+        localStorage.setItem('mangasFavoritos', JSON.stringify(mangasFavoritos));
+      } else {
+        localStorage.setItem('mangasFavoritos', JSON.stringify([]));
+      }
+    }, [mangasFavoritosInicio]
   );
 
   const [mangas, setMangas] = useState([]);
@@ -70,8 +87,8 @@ function App() {
     setMangasFavoritos([...mangasFavoritos, manga]);
   }
 
-  const eliminarMangaDeFavoritos = (manga) => {
-    setMangasFavoritos(mangasFavoritos.filter((mangaFavorito) => mangaFavorito.id !== manga.id)); 
+  const eliminarMangaDeFavoritos = (id) => {
+    setMangasFavoritos(mangasFavoritos.filter(manga => manga.id !== id));
   }
 
   const agregarPreferencia = (preferencia) => {
@@ -82,30 +99,34 @@ function App() {
     setPreferenciasUsuario(preferenciasUsuario.filter((preferenciaUsuario) => preferenciaUsuario !== preferencia));
   }
 
+  const theme = extendTheme({breakpoints})
+
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
+      
+      <Router>
       <Navbar />
-      <Box p='2' ml='5'>
-        <SimpleGrid minChildWidth='300px' spacingX='60px' spacingY='400px'>
-          {mangas.map(manga => (
-            <Box w='100%' h='4'>
-              <Flex alingitems={'center'}>
-                <TarjetaManga
-                  id={manga.id}
-                  titulo={manga.attributes.title.en}
-                  descripcion={manga.attributes.description.en}
-                  link={manga.attributes.links.engtl}
-                  key={manga.id}
-                  mangas={mangas}
-                  agregarMangaAFavoritos={agregarMangaAFavoritos}
-                />
-              </Flex>
-            </Box>
-          ))}
-        </SimpleGrid>
-      </Box>
-      <Footer />
+        <Container>
+        <Routes>
+          <Route exact path="/"
+            element={<Home
+              mangas={mangas}
+              mangasFavoritos={mangasFavoritos}
+              agregarMangaAFavoritos={agregarMangaAFavoritos}
+            />} />
+          <Route exact path="/favoritos"
+            element={<Favoritos
+              mangasFavoritos={mangasFavoritos}
+              mangas={mangas}
+              eliminarMangaDeFavoritos={eliminarMangaDeFavoritos} />} />
+        </Routes>
+        </Container>
+        <Footer />
+      </Router>
+      
     </ChakraProvider>
+
+
   );
 }
 

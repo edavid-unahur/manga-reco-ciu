@@ -53,9 +53,9 @@ export default function Footer() {
             color={useColorModeValue('gray.700', 'gray.200')}>
             <Container
                 as={Stack}
-                maxW={'6xl'}
+                maxW={'100%'}
                 position={'fixed'}
-                bottom={0}
+                margin-top={"100vh"}
                 left={0}
                 right={0}
                 py={4}
