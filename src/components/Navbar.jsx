@@ -1,17 +1,16 @@
-import { ReactNode } from 'react';
 import {
   Box, Flex, Avatar, Button, Menu, MenuButton, MenuList, MenuItem,
   MenuDivider, useDisclosure, useColorModeValue, Stack, useColorMode, Center,
 } from '@chakra-ui/react';
 import React from 'react';
-import { MoonIcon, SunIcon, Shopp } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
   Link as RouteLink
 } from "react-router-dom";
 
 export default function Nav({  }) {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onOpen } = useDisclosure();
   const btnRef = React.useRef();
 
   return (

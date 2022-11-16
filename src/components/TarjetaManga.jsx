@@ -1,7 +1,6 @@
 import { Fragment } from "react";
-import createUseStyles from 'react-jss';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Button, Box, Grid, GridItem, useColorMode, useColorModeValue, SimpleGrid, Flex } from '@chakra-ui/react';
+import { View} from 'react-native';
+import { Button, Box, useColorModeValue, SimpleGrid, Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Badge } from '@chakra-ui/react';
 

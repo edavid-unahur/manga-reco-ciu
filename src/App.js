@@ -1,11 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
-import { ChakraProvider, SimpleGrid } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import Navbar from './components/Navbar';
-import TarjetaManga from './components/TarjetaManga';
-import { useState, useEffect, React, Fragment } from 'react';
-import { Box, Flex, Stack } from '@chakra-ui/react';
-import Footer from './components/Footer2';
+import { useState, useEffect, React } from 'react';
+import {Text, useColorModeValue } from '@chakra-ui/react';
+
 import { extendTheme } from "@chakra-ui/react"
 import {
   BrowserRouter as Router,
@@ -99,31 +97,34 @@ function App() {
     setPreferenciasUsuario(preferenciasUsuario.filter((preferenciaUsuario) => preferenciaUsuario !== preferencia));
   }
 
-  const theme = extendTheme({breakpoints})
+  const theme = extendTheme({ breakpoints })
 
   return (
     <ChakraProvider theme={theme}>
-      
+
       <Router>
-      <Navbar />
+        <Navbar />
         <Container>
-        <Routes>
-          <Route exact path="/"
-            element={<Home
-              mangas={mangas}
-              mangasFavoritos={mangasFavoritos}
-              agregarMangaAFavoritos={agregarMangaAFavoritos}
-            />} />
-          <Route exact path="/favoritos"
-            element={<Favoritos
-              mangasFavoritos={mangasFavoritos}
-              mangas={mangas}
-              eliminarMangaDeFavoritos={eliminarMangaDeFavoritos} />} />
-        </Routes>
+          <Routes>
+            <Route exact path="/"
+              element={<Home
+                mangas={mangas}
+                mangasFavoritos={mangasFavoritos}
+                agregarMangaAFavoritos={agregarMangaAFavoritos}
+              />} />
+            <Route exact path="/favoritos"
+              element={<Favoritos
+                mangasFavoritos={mangasFavoritos}
+                mangas={mangas}
+                eliminarMangaDeFavoritos={eliminarMangaDeFavoritos} />} />
+          </Routes>
         </Container>
-        <Footer />
+
       </Router>
-      
+      <div className="footer" bg={useColorModeValue('gray.50', 'gray.900')}
+        color={useColorModeValue('gray.700', 'gray.200')}>
+        <Text>© 2022 MangaApp. Ezequiel David. API MangaDex</Text>
+      </div>
     </ChakraProvider>
 
 
