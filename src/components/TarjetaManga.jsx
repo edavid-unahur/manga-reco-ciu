@@ -21,14 +21,14 @@ export const TarjetaManga = ({ id, titulo, descripcion, link, tags, mangasFavori
     const [coverArt, setCoverArt] = useState([]);
 
     useEffect(() => {
-        fetch(`https://api.mangadex.org/cover?manga[]=${id}`)
+        fetch(`https://corseze.herokuapp.com/https://api.mangadex.org/cover?manga[]=${id}`)
             .then(res => res.json())
             .then(data => {
                 setCoverArt(data.data[0].attributes.fileName);
             })
     }, [id])
 
-    let coverArtUrl = "https://uploads.mangadex.org/covers/" + id + "/" + coverArt;
+    let coverArtUrl = "https://corseze.herokuapp.com/https://uploads.mangadex.org/covers/" + id + "/" + coverArt;
     return (
         <Fragment>
             <Box maxW='lg' borderWidth='3px' borderRadius='lg'>

@@ -62,15 +62,13 @@ function App() {
 
   //fetch most popular mangas mangadex api for manga list
   useEffect(() => {
-    fetch('https://api.mangadex.org/manga?order[followedCount]=desc&limit=50', 
+    fetch('https://corseze.herokuapp.com/https://api.mangadex.org/manga?order[followedCount]=desc&limit=50', 
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow_credentials': true,
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       }
     })
       .then(response => response.json())
@@ -83,14 +81,13 @@ function App() {
 
   //fetch mangas by preferenciasUsuario from mangadex api for manga list
   useEffect(() => {
-    fetch('https://api.mangadex.org/manga?order[followedCount]=desc&limit=100',
+    fetch('https://corseze.herokuapp.com/https://api.mangadex.org/manga?order[followedCount]=desc&limit=100',
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        'Access-Control-Allow-Origin': '*'
       }
     })
       .then(response => response.json())
